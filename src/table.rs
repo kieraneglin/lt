@@ -5,7 +5,7 @@ use file_info::FileInfo;
 use table_format::TableFormat;
 use separator::Separatable;
 
-const HEADER_LENGTH: usize = 8; // 8 happens to be the size of both "Filename" and "Filesize"
+const HEADER_WIDTH: usize = 8; // 8 happens to be the size of both "Filename" and "Filesize"
 const PADDING_OFFSET: usize = 2; // 2, since there's 1 space on each side of a table element
 
 pub struct Table {
@@ -17,12 +17,12 @@ impl Table {
     pub fn attribute_without_padding(attribute: usize) -> usize {
         // The table width will be determined here.  If the longest element is
         // shorter than the title, go off the title's width.
-        max(HEADER_LENGTH, attribute)
+        max(HEADER_WIDTH, attribute)
     }
 
     pub fn inner_computed_table_width(table_widths: &TableFormat) -> Self {
-        let min_filename_width = HEADER_LENGTH;
-        let min_filesize_width = HEADER_LENGTH;
+        let min_filename_width = HEADER_WIDTH;
+        let min_filesize_width = HEADER_WIDTH;
 
         // Add 2 for the padding spaces.
         let actual_filename_width = max(
