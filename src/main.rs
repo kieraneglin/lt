@@ -13,8 +13,14 @@ use table_format::TableFormat;
 
 fn main() {
     let mut fileinfo: Vec<FileInfo> = vec![];
+    let mut file_pattern: String = String::from("*");
+    let mut args = env::args();
 
-    for entry in glob("*").expect("Failed to read directory") {
+    if args.len() > 1 {
+        file_pattern = args.nth(1).expect("Error parsing glob input")
+    };
+
+    for entry in glob(&file_pattern).expect("Failed to read directory") {
         let filepath = match entry {
             Ok(path) => path,
             Err(e) => panic!("Couldn't parse file. {}", e),
