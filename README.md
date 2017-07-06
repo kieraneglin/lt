@@ -20,5 +20,10 @@ Simply `lt` from your terminal.
 ### Screenshots
 ![main screenshot](screenshots/main.png)
 
+### Todo
+- [ ] Add sorting options via flags
+- [ ] Ensure the terminal is wide enough before showing the table
+- [ ] Refactor loops
+
 ### License
 [MIT](https://github.com/kieraneglin/lt/blob/master/LICENSE)
