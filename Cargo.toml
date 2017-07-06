@@ -4,3 +4,5 @@ version = "0.1.0"
 authors = ["Kieran Eglin <kieran.eglin@gmail.com>"]
 
 [dependencies]
+glob = "0.2"
+separator = "0.3.1"
