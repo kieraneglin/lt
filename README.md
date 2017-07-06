@@ -18,4 +18,4 @@ Simply `lt` from your terminal.
 - `-a, --all` will show dotfiles.  Analogous to `ls -a`.
 
 ### License
-MIT
+[MIT](https://github.com/kieraneglin/lt/blob/master/LICENSE)
