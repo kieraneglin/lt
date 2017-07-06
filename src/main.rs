@@ -24,8 +24,25 @@ struct FileInfo {
     metadata: Metadata,
 }
 
+impl FileInfo {
+    fn formatted_filepath(&self) -> String {
+        let mut basename = self.filepath.display().to_string();
+        if self.metadata.is_dir() {
+            basename += "/";
+        }
+
+        basename
+    }
+    fn filesize(&self) -> usize {
+        self.metadata.len() as usize
+    }
+    fn formatted_filesize(&self) -> String {
+        self.metadata.len().separated_string()
+    }
+}
+
 fn main() {
-    let mut fileinfo: Vec<(PathBuf, Metadata)> = vec![];
+    let mut fileinfo: Vec<FileInfo> = vec![];
 
     for entry in glob("*").expect("Failed to read directory") {
         let filepath = match entry {
@@ -37,7 +54,7 @@ fn main() {
             Err(e) => panic!("Couldn't parse metadata for {}. {}", filepath.display(), e),
         };
 
-        fileinfo.push((filepath, metadata));
+        fileinfo.push(FileInfo { filepath, metadata });
     }
 
     let filename_width: usize = string_table_width(&fileinfo);
@@ -64,8 +81,8 @@ fn main() {
     for file in fileinfo {
         println!(
             "│ {:name$} │ {:>size$} │",
-            file.0.display().to_string(),
-            file.1.len().separated_string(),
+            file.formatted_filepath(),
+            file.formatted_filesize(),
             name = TableWidth::attribute_without_padding(filename_width),
             size = TableWidth::attribute_without_padding(filesize_width)
         );
@@ -87,9 +104,6 @@ fn inner_computed_table_width(filename_width: usize, filesize_width: usize) -> T
     let actual_filename_width = max(min_filename_width, filename_width + 2);
     let actual_filesize_width = max(min_filesize_width, filesize_width + 2);
 
-    println!("{}", actual_filename_width);
-    println!("{}", actual_filesize_width);
-
     TableWidth {
         filename: actual_filename_width,
         filesize: actual_filesize_width,
@@ -98,11 +112,11 @@ fn inner_computed_table_width(filename_width: usize, filesize_width: usize) -> T
 
 // We need to find the max length of the filesize and filepath,
 // so that we know how wide to make the table
-fn numeric_table_width(fileinfo: &Vec<(PathBuf, Metadata)>) -> usize {
+fn numeric_table_width(fileinfo: &Vec<FileInfo>) -> usize {
     let mut result: usize = 0;
 
     for file in fileinfo {
-        let width = file.1.len() as usize;
+        let width = file.filesize() as usize;
 
         if width > result {
             result = width;
@@ -112,11 +126,11 @@ fn numeric_table_width(fileinfo: &Vec<(PathBuf, Metadata)>) -> usize {
     result.separated_string().to_string().len()
 }
 
-fn string_table_width(fileinfo: &Vec<(PathBuf, Metadata)>) -> usize {
+fn string_table_width(fileinfo: &Vec<FileInfo>) -> usize {
     let mut result: usize = 0;
 
     for file in fileinfo {
-        let width = file.0.display().to_string().len();
+        let width = file.formatted_filepath().len();
 
         if width > result {
             result = width;
