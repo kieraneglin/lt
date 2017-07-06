@@ -2,6 +2,7 @@
 use std::fs::Metadata;
 use std::path::PathBuf;
 use separator::Separatable;
+use unicode_width::UnicodeWidthStr;
 
 pub struct FileInfo {
     pub filepath: PathBuf,
@@ -18,11 +19,15 @@ impl FileInfo {
         basename
     }
 
+    pub fn normalized_filename_length(&self) -> usize {
+        UnicodeWidthStr::width(self.formatted_filepath().as_str())
+    }
+
     pub fn filesize(&self) -> usize {
         self.metadata.len() as usize
     }
 
     pub fn formatted_filesize(&self) -> String {
-        self.metadata.len().separated_string()
+        self.filesize().separated_string()
     }
 }
