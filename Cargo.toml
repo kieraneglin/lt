@@ -7,3 +7,4 @@ authors = ["Kieran Eglin <kieran.eglin@gmail.com>"]
 glob = "0.2"
 separator = "0.3.1"
 clap = { version = "2.25.0", features = ["yaml"] }
+unicode-width = "0.1.4"

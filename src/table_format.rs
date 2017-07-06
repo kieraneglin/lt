@@ -1,5 +1,4 @@
 // This file contains functions for actually displaying the table
-
 use table::Table;
 use file_info::FileInfo;
 
@@ -44,11 +43,12 @@ impl TableFormat {
 
     fn print_body(fileinfo: &[FileInfo], table_widths: &TableFormat) {
         for file in fileinfo {
+
             println!(
-                "│ {:name$} │ {:>size$} │",
+                "│ {}{name} │ {:>size$} │",
                 file.formatted_filepath(),
                 file.formatted_filesize(),
-                name = Table::attribute_without_padding(table_widths.filename_width),
+                name = Table::normalized_filename_padding(table_widths.filename_width, file),
                 size = Table::attribute_without_padding(table_widths.filesize_width)
             );
         }

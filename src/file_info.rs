@@ -1,7 +1,4 @@
 // This file contains functions related to display of file metadata
-
-extern crate separator;
-
 use std::fs::Metadata;
 use std::path::PathBuf;
 use separator::Separatable;
