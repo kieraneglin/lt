@@ -20,15 +20,13 @@ fn main() {
     let matches = App::from_yaml(yaml).get_matches();
     let file_pattern: String = matches.value_of("pattern").unwrap_or("*").to_string();
     let show_dotfiles = matches.is_present("dotfiles");
-
-    let mut fileinfo: Vec<FileInfo> = vec![];
-
     let options = MatchOptions {
         case_sensitive: false,
         require_literal_separator: false,
         // We need this to return false if the flag is present.  Hence the !
         require_literal_leading_dot: !show_dotfiles,
     };
+    let mut fileinfo: Vec<FileInfo> = vec![];
 
     for entry in glob_with(&file_pattern, &options).expect("Failed to read directory") {
         let filepath = match entry {
