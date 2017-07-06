@@ -29,7 +29,7 @@ impl TableFormat {
             "─".repeat(inner_width.filesize)
         );
         println!(
-            "│ {:name$} │ {:size$} │",
+            "│ {:name$} │ {:>size$} │",
             "Filename",
             "Filesize",
             name = table_widths.filename_width,
