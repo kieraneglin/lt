@@ -6,7 +6,8 @@ mod file_info;
 mod table_format;
 
 use std::env;
-use glob::glob;
+use glob::glob_with;
+use glob::MatchOptions;
 use std::path::Path;
 use file_info::FileInfo;
 use table_format::TableFormat;
@@ -20,7 +21,13 @@ fn main() {
         file_pattern = args.nth(1).expect("Error parsing glob input")
     };
 
-    for entry in glob(&file_pattern).expect("Failed to read directory") {
+    let options = MatchOptions {
+        case_sensitive: false,
+        require_literal_separator: false,
+        require_literal_leading_dot: false,
+    };
+
+    for entry in glob_with(&file_pattern, &options).expect("Failed to read directory") {
         let filepath = match entry {
             Ok(path) => path,
             Err(e) => panic!("Couldn't parse file. {}", e),
