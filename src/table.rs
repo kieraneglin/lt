@@ -1,9 +1,7 @@
 // This file contains functions for calculating table offsets and widths.
 use std::cmp::max;
 use file_info::FileInfo;
-use separator::Separatable;
 use table_format::TableFormat;
-use unicode_width::UnicodeWidthStr;
 
 const HEADER_WIDTH: usize = 8; // 8 happens to be the size of both "Filename" and "Filesize"
 const PADDING_OFFSET: usize = 2; // 2, since there's 1 space on each side of a table element
@@ -20,9 +18,11 @@ impl Table {
         max(HEADER_WIDTH, attribute)
     }
 
+    // fmt doens't handle on-standard chars correctly.
+    // This is needed to correctly report the length of a string
     pub fn normalized_filename_padding(attribute: usize, file: &FileInfo) -> String {
         let normalized_padding = Self::attribute_without_padding(attribute) -
-            UnicodeWidthStr::width(file.formatted_filepath().as_str());
+            file.normalized_filename_length();
 
         " ".repeat(normalized_padding)
     }
@@ -49,30 +49,18 @@ impl Table {
     // We need to find the max length of the filesize and filepath,
     // so that we know how wide to make the table
     pub fn max_filesize_width(fileinfo: &[FileInfo]) -> usize {
-        let mut result: usize = 0;
-
-        for file in fileinfo {
-            let width = file.filesize() as usize;
-
-            if width > result {
-                result = width;
-            }
-        }
-
-        result.separated_string().to_string().len()
+        fileinfo
+            .into_iter()
+            .map(|f| f.formatted_filesize().len())
+            .max()
+            .unwrap_or(0)
     }
 
     pub fn max_filename_width(fileinfo: &[FileInfo]) -> usize {
-        let mut result: usize = 0;
-
-        for file in fileinfo {
-            let width = UnicodeWidthStr::width(file.formatted_filepath().as_str());
-
-            if width > result {
-                result = width;
-            }
-        }
-
-        result
+        fileinfo
+            .into_iter()
+            .map(|f| f.normalized_filename_length())
+            .max()
+            .unwrap_or(0)
     }
 }
