@@ -1,6 +1,5 @@
 #[macro_use]
 extern crate clap;
-
 extern crate glob;
 extern crate separator;
 extern crate unicode_width;
@@ -9,12 +8,12 @@ mod table;
 mod file_info;
 mod table_format;
 
+use clap::App;
 use glob::glob_with;
 use std::path::Path;
 use glob::MatchOptions;
 use file_info::FileInfo;
 use table_format::TableFormat;
-use clap::App;
 
 fn main() {
     let yaml = load_yaml!("cli.yml");
