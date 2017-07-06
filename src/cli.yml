@@ -1,0 +1,14 @@
+name: lt
+version: "0.1.0"
+about: list your files in tabular form
+
+args:
+    - dotfiles:
+        help: Include directory entries whose names begin with a dot (.).
+        short: a
+        long: all
+    - pattern:
+        short: p
+        long: pattern
+        help: Only list files that match the specified file pattern.
+        takes_value: true
