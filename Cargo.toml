@@ -1,5 +1,5 @@
 [package]
-name = "ltable"
+name = "lt"
 version = "0.1.0"
 authors = ["Kieran Eglin <kieran.eglin@gmail.com>"]
 

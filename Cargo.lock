@@ -1,5 +1,5 @@
 [root]
-name = "ltable"
+name = "lt"
 version = "0.1.0"
 dependencies = [
  "glob 0.2.11 (registry+https://github.com/rust-lang/crates.io-index)",
