@@ -24,7 +24,6 @@ impl Table {
         let min_filename_width = HEADER_WIDTH;
         let min_filesize_width = HEADER_WIDTH;
 
-        // Add 2 for the padding spaces.
         let actual_filename_width = max(
             min_filename_width + PADDING_OFFSET,
             table_widths.filename_width + PADDING_OFFSET,
