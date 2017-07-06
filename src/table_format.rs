@@ -9,16 +9,16 @@ pub struct TableFormat {
 }
 
 impl TableFormat {
-    pub fn print_table(fileinfo: Vec<FileInfo>) {
+    pub fn print_table(fileinfo: &[FileInfo]) {
         let table_widths = TableFormat {
-            filename_width: Table::max_filename_width(&fileinfo),
-            filesize_width: Table::max_filesize_width(&fileinfo),
+            filename_width: Table::max_filename_width(fileinfo),
+            filesize_width: Table::max_filesize_width(fileinfo),
         };
 
         let inner_width = Table::inner_computed_table_width(&table_widths);
 
         Self::print_header(&inner_width, &table_widths);
-        Self::print_body(&fileinfo, &table_widths);
+        Self::print_body(fileinfo, &table_widths);
         Self::print_footer(&inner_width);
     }
 
@@ -42,7 +42,7 @@ impl TableFormat {
         );
     }
 
-    fn print_body(fileinfo: &Vec<FileInfo>, table_widths: &TableFormat) {
+    fn print_body(fileinfo: &[FileInfo], table_widths: &TableFormat) {
         for file in fileinfo {
             println!(
                 "│ {:name$} │ {:>size$} │",

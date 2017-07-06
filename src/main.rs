@@ -41,5 +41,5 @@ fn main() {
         fileinfo.push(FileInfo { filepath, metadata });
     }
 
-    TableFormat::print_table(fileinfo);
+    TableFormat::print_table(&fileinfo);
 }

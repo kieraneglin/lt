@@ -41,7 +41,7 @@ impl Table {
 
     // We need to find the max length of the filesize and filepath,
     // so that we know how wide to make the table
-    pub fn max_filesize_width(fileinfo: &Vec<FileInfo>) -> usize {
+    pub fn max_filesize_width(fileinfo: &[FileInfo]) -> usize {
         let mut result: usize = 0;
 
         for file in fileinfo {
@@ -55,7 +55,7 @@ impl Table {
         result.separated_string().to_string().len()
     }
 
-    pub fn max_filename_width(fileinfo: &Vec<FileInfo>) -> usize {
+    pub fn max_filename_width(fileinfo: &[FileInfo]) -> usize {
         let mut result: usize = 0;
 
         for file in fileinfo {
