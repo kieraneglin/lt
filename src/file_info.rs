@@ -1,7 +1,7 @@
 extern crate separator;
 
-use std::path::PathBuf;
 use std::fs::Metadata;
+use std::path::PathBuf;
 use separator::Separatable;
 
 pub struct FileInfo {
@@ -22,6 +22,7 @@ impl FileInfo {
     pub fn filesize(&self) -> usize {
         self.metadata.len() as usize
     }
+
     pub fn formatted_filesize(&self) -> String {
         self.metadata.len().separated_string()
     }
