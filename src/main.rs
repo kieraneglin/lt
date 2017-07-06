@@ -3,6 +3,7 @@ extern crate clap;
 
 extern crate glob;
 extern crate separator;
+extern crate unicode_width;
 
 mod table;
 mod file_info;

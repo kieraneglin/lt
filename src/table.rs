@@ -1,9 +1,9 @@
 // This file contains functions for calculating table offsets and widths.
-
 use std::cmp::max;
 use file_info::FileInfo;
-use table_format::TableFormat;
 use separator::Separatable;
+use table_format::TableFormat;
+use unicode_width::UnicodeWidthStr;
 
 const HEADER_WIDTH: usize = 8; // 8 happens to be the size of both "Filename" and "Filesize"
 const PADDING_OFFSET: usize = 2; // 2, since there's 1 space on each side of a table element
@@ -18,6 +18,13 @@ impl Table {
         // The table width will be determined here.  If the longest element is
         // shorter than the title, go off the title's width.
         max(HEADER_WIDTH, attribute)
+    }
+
+    pub fn normalized_filename_padding(attribute: usize, file: &FileInfo) -> String {
+        let normalized_padding = Self::attribute_without_padding(attribute) -
+            UnicodeWidthStr::width(file.formatted_filepath().as_str());
+
+        " ".repeat(normalized_padding)
     }
 
     pub fn inner_computed_table_width(table_widths: &TableFormat) -> Self {
@@ -59,7 +66,7 @@ impl Table {
         let mut result: usize = 0;
 
         for file in fileinfo {
-            let width = file.formatted_filepath().len();
+            let width = UnicodeWidthStr::width(file.formatted_filepath().as_str());
 
             if width > result {
                 result = width;
